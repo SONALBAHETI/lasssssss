@@ -16,9 +16,7 @@
         margin: 0;
         padding: 0;
         min-height: 100vh;
-        background-color: #302D3A;
-          no-repeat center center fixed;
-        background-size: cover;
+        background-color: #302d3a;
         text-align: center;
       }
 
@@ -107,24 +105,25 @@
   </head>
   <body>
     <div class="frame">
+      <h2>Coming Soon..</h2>
       <div id="countdown">
         <div class="countdown-row">
           <div class="countdown-item" id="days-container">
-            <span id="days">00</span>
+            <span id="days">01</span>
             <div class="label">Days</div>
           </div>
           <div class="countdown-item" id="hours-container">
-            <span id="hours">00</span>
+            <span id="hours">02</span>
             <div class="label">Hours</div>
           </div>
         </div>
         <div class="countdown-row">
           <div class="countdown-item" id="minutes-container">
-            <span id="minutes">00</span>
+            <span id="minutes">30</span>
             <div class="label">Minutes</div>
           </div>
           <div class="countdown-item" id="seconds-container">
-            <span id="seconds">00</span>
+            <span id="seconds">60</span>
             <div class="label">Seconds</div>
           </div>
         </div>
@@ -132,9 +131,6 @@
     </div>
 
     <script>
-      // Set the date we're counting down to (7th September)
-      let countDownDate = new Date("Sep 7, 2024 00:00:00").getTime();
-
       // Function to trigger pop-in animation with a delay
       function revealItem(elementId, delay) {
         setTimeout(() => {
@@ -148,31 +144,24 @@
       revealItem("minutes-container", 2500); // Minute appears third
       revealItem("seconds-container", 3500); // Second appears last
 
-      // Update the countdown every second
+      // Initialize the starting values
+      let seconds = 60;
+
+      // Countdown functionality
       let countdownFunction = setInterval(function () {
-        let now = new Date().getTime();
-        let remainingTime = countDownDate - now;
-
-        // Calculate days, hours, minutes, and seconds
-        let days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-        let hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-        let seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-        // Display the result in the respective elements
-        document.getElementById("days").innerHTML = days.toString().padStart(2, "0");
-        document.getElementById("hours").innerHTML = hours.toString().padStart(2, "0");
-        document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, "0");
-        document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, "0");
-
-        // If the countdown is finished, display '0' in all fields
-        if (remainingTime < 0) {
-          clearInterval(countdownFunction);
-          document.getElementById("days").innerHTML = "00";
-          document.getElementById("hours").innerHTML = "00";
-          document.getElementById("minutes").innerHTML = "00";
-          document.getElementById("seconds").innerHTML = "00";
+        // Decrease seconds and reset if it reaches 0
+        seconds -= 1;
+        if (seconds < 0) {
+          seconds = 60;
         }
+
+        // Keep day, hour, and minute static for video recording
+        document.getElementById("days").innerHTML = "01";
+        document.getElementById("hours").innerHTML = "02";
+        document.getElementById("minutes").innerHTML = "30";
+
+        // Update only the seconds
+        document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, "0");
       }, 1000); // Update every second
     </script>
   </body>
