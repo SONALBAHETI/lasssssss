@@ -16,9 +16,10 @@
         margin: 0;
         padding: 0;
         min-height: 100vh;
-        background: url("https://cdn.shopify.com/s/files/1/0569/9521/7541/files/JSB_STONEX_37.png?v=1725600969")
-          no-repeat center center fixed;
+        background: url("https://cdn.shopify.com/s/files/1/0569/9521/7541/files/JSB_STONEX_38.png?v=1725603292")
+          no-repeat center center;
         background-size: cover;
+        background-attachment: fixed;
         text-align: center;
       }
 
@@ -82,8 +83,10 @@
 
       @media (max-width: 480px) {
         body {
-          background-size: contain;
+          background-size: cover;
           background-position: center;
+          background-attachment: scroll;
+          min-height: 100vh;
         }
 
         h2 {
