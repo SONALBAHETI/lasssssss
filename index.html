@@ -17,9 +17,8 @@
         padding: 0;
         min-height: 100vh;
         background: url("https://cdn.shopify.com/s/files/1/0569/9521/7541/files/JSB_STONEX_38.png?v=1725603292")
-          no-repeat center center;
+          no-repeat center center fixed;
         background-size: cover;
-        background-attachment: fixed;
         text-align: center;
       }
 
@@ -36,7 +35,7 @@
         text-transform: uppercase;
         font-weight: 300;
         margin: 0 0 20px;
-        background: radial-gradient(circle, #bb984d, #f5eb9b);
+        background: linear-gradient(90deg, #bb984d, #f5eb9b);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
@@ -82,13 +81,6 @@
       }
 
       @media (max-width: 480px) {
-        body {
-          background-size: cover;
-          background-position: center;
-          background-attachment: scroll;
-          min-height: 100vh;
-        }
-
         h2 {
           font-size: 1.8rem;
         }
@@ -105,28 +97,35 @@
           font-size: 0.9rem;
         }
       }
+
+      /* Pop-up animation for countdown items */
+      .pop-in {
+        opacity: 1;
+        transform: scale(1);
+      }
     </style>
   </head>
   <body>
     <div class="frame">
+      <h2>Coming Soon..</h2>
       <div id="countdown">
         <div class="countdown-row">
-          <div class="countdown-item" id="day-item">
-            <span id="days">01</span>
+          <div class="countdown-item" id="days-container">
+            <span id="days">00</span>
             <div class="label">Days</div>
           </div>
-          <div class="countdown-item" id="hour-item">
-            <span id="hours">02</span>
+          <div class="countdown-item" id="hours-container">
+            <span id="hours">00</span>
             <div class="label">Hours</div>
           </div>
         </div>
         <div class="countdown-row">
-          <div class="countdown-item" id="minute-item">
-            <span id="minutes">30</span>
+          <div class="countdown-item" id="minutes-container">
+            <span id="minutes">00</span>
             <div class="label">Minutes</div>
           </div>
-          <div class="countdown-item" id="second-item">
-            <span id="seconds">60</span>
+          <div class="countdown-item" id="seconds-container">
+            <span id="seconds">00</span>
             <div class="label">Seconds</div>
           </div>
         </div>
@@ -134,39 +133,47 @@
     </div>
 
     <script>
-      // Function to reveal items one by one with animation
+      // Set the date we're counting down to (7th September)
+      let countDownDate = new Date("Sep 7, 2024 00:00:00").getTime();
+
+      // Function to trigger pop-in animation with a delay
       function revealItem(elementId, delay) {
         setTimeout(() => {
-          const element = document.getElementById(elementId);
-          element.style.opacity = "1";
-          element.style.transform = "scale(1)";
+          document.getElementById(elementId).classList.add("pop-in");
         }, delay);
       }
 
-      // Reveal day, hour, minute, and second items sequentially
-      revealItem("day-item", 500); // 0.5 second delay
-      revealItem("hour-item", 1500); // 1.5 second delay
-      revealItem("minute-item", 2500); // 2.5 second delay
-      revealItem("second-item", 3500); // 3.5 second delay
+      // Apply pop-in animation to each item with a delay
+      revealItem("days-container", 500); // Day appears first
+      revealItem("hours-container", 1500); // Hour appears second
+      revealItem("minutes-container", 2500); // Minute appears third
+      revealItem("seconds-container", 3500); // Second appears last
 
-      // Initialize the starting values
-      let seconds = 60;
-
-      // Countdown functionality
+      // Update the countdown every second
       let countdownFunction = setInterval(function () {
-        // Decrease seconds and reset if it reaches 0
-        seconds -= 1;
-        if (seconds < 0) {
-          seconds = 60;
-        }
+        let now = new Date().getTime();
+        let remainingTime = countDownDate - now;
 
-        // Display the constant day, hour, and minute values
-        document.getElementById("days").innerHTML = "01";
-        document.getElementById("hours").innerHTML = "02";
-        document.getElementById("minutes").innerHTML = "30";
+        // Calculate days, hours, minutes, and seconds
+        let days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-        // Update only the seconds
+        // Display the result in the respective elements
+        document.getElementById("days").innerHTML = days.toString().padStart(2, "0");
+        document.getElementById("hours").innerHTML = hours.toString().padStart(2, "0");
+        document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, "0");
         document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, "0");
+
+        // If the countdown is finished, display '0' in all fields
+        if (remainingTime < 0) {
+          clearInterval(countdownFunction);
+          document.getElementById("days").innerHTML = "00";
+          document.getElementById("hours").innerHTML = "00";
+          document.getElementById("minutes").innerHTML = "00";
+          document.getElementById("seconds").innerHTML = "00";
+        }
       }, 1000); // Update every second
     </script>
   </body>
